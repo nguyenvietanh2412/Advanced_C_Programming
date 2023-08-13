@@ -80,6 +80,8 @@ int check_condition_for_multiplying(int colA, int rowB) {
 void free_matrix(int row, int **matrix) {
     for (int i = 0; i < row; i++) {
         free(matrix[i]);
+        matrix[i] = NULL;
     }
     free(matrix);
+    matrix = NULL;
 }
