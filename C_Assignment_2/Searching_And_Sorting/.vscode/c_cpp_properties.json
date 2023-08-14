@@ -4,17 +4,15 @@
       "name": "windows-gcc-x86",
       "includePath": [
         "${workspaceFolder}/**",
-        "D:\\Advanced_C_Programming\\C_Assignment_2\\Searching_And_Sorting\\inc"
-      ],
-      "defines": [
-        "_DEBUG",
-        "UNICODE",
-        "_UNICODE"
+        "${workspaceFolder}/inc"
       ],
       "compilerPath": "C:/MinGW/bin/gcc.exe",
       "cStandard": "c11",
       "cppStandard": "gnu++14",
-      "intelliSenseMode": "windows-gcc-x86"
+      "intelliSenseMode": "windows-gcc-x86",
+      "compilerArgs": [
+        ""
+      ]
     }
   ],
   "version": 4
