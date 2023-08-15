@@ -16,4 +16,4 @@ $(TARGET): $(SOURCES)
 
 clean:
 
-	del /f /q $(TARGET)
+	rm -rf $(TARGET)

@@ -18,7 +18,7 @@
 //     head = new_employee;
 // }
 
-void input_new_employee(Employee *head, int id, const char *fullname, const char *department, int salary, const char *start_date)
+void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date)
 {
     Employee *new_employee = (Employee*)malloc(sizeof(Employee));
     if (new_employee == NULL) {
@@ -30,12 +30,12 @@ void input_new_employee(Employee *head, int id, const char *fullname, const char
     strcpy(new_employee->fullname, fullname);
     strcpy(new_employee->department, department);
     strcpy(new_employee->start_date, start_date);
-    new_employee->next = head;
-    head = new_employee;
+    new_employee->next = *head;
+    *head = new_employee;
 }
 
 
-void input_people(Employee *employee, int number)
+void input_people(Employee **employee, int number)
 {
     int i;
     for (i = 0; i < number; i++)
@@ -66,7 +66,6 @@ void input_people(Employee *employee, int number)
 }
 void show_employee(Employee *employee)
 {
-    printf("\n-----Display employees information-----\n");
     while(employee != NULL)
     {
         printf("ID: %d\n", employee->id);
@@ -76,4 +75,29 @@ void show_employee(Employee *employee)
         printf("Start date: %s\n", employee->start_date);
         employee = employee->next;
     }
+}
+void sort_employ(Employee **head, Employee *new_node)
+{
+    if (*head != NULL || new_node->salary <= (*head)->salary)
+    {
+        new_node->next = *head;
+        *head = new_node; 
+    }
+    else
+    {
+        
+    }
+}
+void insert_sort(Employee **head)
+{
+    Employee *sorted_employ = NULL;
+    Employee *current = *head;
+    Employee *next;
+    while (current != NULL)
+    {
+        next = current->next;
+        sorted_insert(&sorted_employ, current);
+        current = next;
+    }
+    *head = sorted_employ;
 }

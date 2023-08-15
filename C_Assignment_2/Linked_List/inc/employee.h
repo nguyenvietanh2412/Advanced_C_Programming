@@ -9,6 +9,8 @@ typedef struct employee
     struct employee *next;
 } Employee;
 
-void input_new_employee(Employee *head, int id, const char *fullname, const char *department, int salary, const char *start_date);
-void input_people(Employee *employee, int number);
+void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date);
+void input_people(Employee **employee, int number);
 void show_employee(Employee *employee);
+void sort_employ(Employee **head, Employee *new_node);
+void insert_sort(Employee **head);
