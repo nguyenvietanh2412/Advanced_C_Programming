@@ -1,22 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "employee.h"
 
 
-// void input_new_employee(Employee *head, int id, const char *fullname, const char *department, int salary, const char *start_date)
-// {
-//     Employee *new_employee = (Employee*)malloc(sizeof(Employee));
-//     strcpy(new_employee->fullname, fullname);
-//     strcpy(new_employee->department, department);
-//     strcpy(new_employee->start_date, start_date);
-//     new_employee->id = id;
-//     new_employee->fullname = fullname;
-//     new_employee->department = department;
-//     new_employee->salary = salary;
-//     new_employee->start_date = start_date;
-//     head = new_employee;
-// }
 
 void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date)
 {
@@ -76,28 +64,87 @@ void show_employee(Employee *employee)
         employee = employee->next;
     }
 }
-void sort_employ(Employee **head, Employee *new_node)
+void sort_employ_ascending(Employee **head, Employee *unsorted_node)
 {
-    if (*head != NULL || new_node->salary <= (*head)->salary)
+    if (*head == NULL || unsorted_node->salary <= (*head)->salary)
     {
-        new_node->next = *head;
-        *head = new_node; 
+        unsorted_node->next = *head;
+        *head = unsorted_node; 
     }
     else
     {
-        
+        Employee *current_sorted = *head;
+        while (current_sorted->next != NULL && current_sorted->next->salary < unsorted_node->salary)
+        {
+            current_sorted = current_sorted->next;
+        }
+        unsorted_node->next = current_sorted->next;
+        current_sorted->next = unsorted_node;
+    }
+}
+void sort_employ_descending(Employee **head, Employee *unsorted_node)
+{
+    if (*head == NULL || unsorted_node->salary >= (*head)->salary)
+    {
+        unsorted_node->next = *head;
+        *head = unsorted_node; 
+    }
+    else
+    {
+        Employee *current_sorted = *head;
+        while (current_sorted->next != NULL && current_sorted->next->salary > unsorted_node->salary)
+        {
+            current_sorted = current_sorted->next;
+        }
+        unsorted_node->next = current_sorted->next;
+        current_sorted->next = unsorted_node;
     }
 }
 void insert_sort(Employee **head)
 {
-    Employee *sorted_employ = NULL;
-    Employee *current = *head;
-    Employee *next;
-    while (current != NULL)
+    Employee *sorted_employ;
+    Employee *current;
+    int choice;
+    while(true)
     {
-        next = current->next;
-        sorted_insert(&sorted_employ, current);
-        current = next;
+        printf("Enter your choice:\n1. Sort employee ascending\n2. Sort employee descending\n0. Exit\n");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            sorted_employ = NULL;
+            current = *head;
+            while (current != NULL)
+            {
+                Employee *next = current->next;
+                current->next = NULL;
+                sort_employ_ascending(&sorted_employ, current);
+                current = next;
+            }
+            *head = sorted_employ; 
+            printf("------SORT SALARY OF EMPLOYEES ASCENDINGLY------\n");
+            show_employee(sorted_employ);
+            break;
+        case 2:
+            sorted_employ = NULL;
+            current = *head;
+            while (current != NULL)
+            {
+                Employee *next = current->next;
+                current->next = NULL;
+                sort_employ_descending(&sorted_employ, current);
+                current = next;
+            }
+            *head = sorted_employ; 
+            printf("------SORT SALARY OF EMPLOYEES DESCENDINGLY------\n");
+            show_employee(sorted_employ);
+            break;
+        case 0:   
+            return;
+            break;
+        default:
+            break;
+        }
     }
-    *head = sorted_employ;
+    
 }
