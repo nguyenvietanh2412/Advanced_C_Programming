@@ -3,14 +3,15 @@
         {
             "name": "Win32",
             "includePath": [
-                "D:\\Advanced_C_Programming\\C_Assignment_2\\Linked_List\\inc"
+                "/usr/include/x86_64-linux-gnu",
+                "${workspaceFolder}/inc"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\MinGW\\bin\\gcc.exe",
+            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "gnu++14",
             "intelliSenseMode": "windows-gcc-x86"
