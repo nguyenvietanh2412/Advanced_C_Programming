@@ -10,7 +10,7 @@ typedef struct employee
 } Employee;
 
 void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date);
-void input_people(Employee **employee, int number);
+void input_employee_information(Employee **employee, int number);
 void show_employee(Employee *employee);
-void sort_employ_ascending(Employee **head, Employee *new_node);
+void insert_new_employee(Employee *head);
 void insert_sort(Employee **head);
