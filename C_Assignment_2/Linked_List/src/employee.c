@@ -253,7 +253,7 @@ void insert_new_employee(Employee *head)
     while(true)
     {
         Employee *new_employee = (Employee *)malloc(sizeof(Employee));
-        if (new_employee = NULL)
+        if (new_employee == NULL)
         {
             return;
         }
