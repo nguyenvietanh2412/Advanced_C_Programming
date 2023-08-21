@@ -55,79 +55,11 @@ int check_id()
     // Loop until a valid positive integer input is provided
     while (scanf("%d", &id) != 1 || id < 0) 
     {
-        printf("Invalid input. Enter again:\nID:")
-    }
-    return id;
-}
-/* FUNCTION=================================================================
-
- *  Function Name: sort_employee_fullname
-
- *  Description: Insert an employee node into the employee list in ascending order of full name.
-
- *  Parameters:
- *      - head: Pointer to the pointer of the head of the employee list.
- *      - unsorted_node: Pointer to the employee node to be inserted.
-
- ==========================================================================*/
-void sort_employee_fullname(Employee **head, Employee *unsorted_node) {
-    if (unsorted_node == NULL) {
-        return; // Return if the unsorted_node is NULL
-    }
-
-    if (*head == NULL || strncmp(unsorted_node->fullname, (*head)->fullname, 50) <= 0) {
-        // Insert the unsorted_node at the beginning of the list
-        unsorted_node->next = *head;
-        *head = unsorted_node;
-    } else {
-        Employee *current_sorted_node = *head;
-
-        // Traverse the sorted list to find the appropriate position for insertion
-        while (current_sorted_node->next != NULL && strncmp(current_sorted_node->next->fullname, unsorted_node->fullname, 50) > 0) {
-            current_sorted_node = current_sorted_node->next;
-        }
-
-        // Insert the unsorted_node into the sorted list
-        unsorted_node->next = current_sorted_node->next;
-        current_sorted_node->next = unsorted_node;
-    }
-}/* FUNCTION=================================================================
-
- *  Function Name: sort_employee_fullname
-
- *  Description: Insert an employee node into the employee list in ascending order of full name.
-
- *  Parameters:
- *      - head: Pointer to the pointer of the head of the employee list.
- *      - unsorted_node: Pointer to the employee node to be inserted.
-
- ==========================================================================*/
-void sort_employee_fullname(Employee **head, Employee *unsorted_node) {
-    if (unsorted_node == NULL) {
-        return; // Return if the unsorted_node is NULL
-    }
-
-    if (*head == NULL || strncmp(unsorted_node->fullname, (*head)->fullname, 50) <= 0) {
-        // Insert the unsorted_node at the beginning of the list
-        unsorted_node->next = *head;
-        *head = unsorted_node;
-    } else {
-        Employee *current_sorted_node = *head;
-
-        // Traverse the sorted list to find the appropriate position for insertion
-        while (current_sorted_node->next != NULL && strncmp(current_sorted_node->next->fullname, unsorted_node->fullname, 50) > 0) {
-            current_sorted_node = current_sorted_node->next;
-        }
-
-        // Insert the unsorted_node into the sorted list
-        unsorted_node->next = current_sorted_node->next;
-        current_sorted_node->next = unsorted_node;
-    }
-}
-
+        printf("Invalid input. Enter again:\nID:");
+        while (getchar() != '\n');
     }
     getchar();
-    return id; 
+    return id;
 }
 /* FUNCTION=================================================================
 
