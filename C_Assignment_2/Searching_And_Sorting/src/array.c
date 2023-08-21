@@ -28,13 +28,13 @@ int check_number_element()
  *  Description: Check valid elements of array
 
  ==========================================================================*/
-static int check_element()
+static int check_element(int i)
 {
     float element;
-    printf("Enter element:");
+    printf("Enter element [%d]: ", i);
     while (scanf("%f", &element) != 1 || element - (int)element != 0)
     {
-        printf("Invalid input. Enter again!\nEnter element:");
+        printf("Invalid input. Enter again!\nEnter element [%d]:", i);
         while (getchar() != '\n');
     }
     return (int)element;
@@ -51,7 +51,7 @@ void input_array(int number, int array[])
     int i;
     for (i = 0; i < number; i++)
     {
-        array[i] = check_element();
+        array[i] = check_element(i);
     }
 }
 /* FUNCTION=================================================================

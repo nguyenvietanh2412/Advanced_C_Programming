@@ -14,7 +14,7 @@ int check_number_element();
  * Check valid elements of array from keyboard
 
  */
-static int check_element();
+static int check_element(int);
 /**
 
  * Input the elements of array from keyboard
