@@ -6,6 +6,8 @@
 
 #include <stdlib.h>
 
+int check_valid_row_col();
+float check_valid_element();
 /**
 
  * Fill a matrix with user-input values.
@@ -20,9 +22,7 @@
 
  */
 
-void input_matrix(int row, int col, int **pp_matrix);
-
-
+void input_matrix(int row, int col, float **pp_matrix);
 
 /**
 
@@ -38,7 +38,7 @@ void input_matrix(int row, int col, int **pp_matrix);
 
  */
 
-void show_matrix(int row, int col, int **pp_matrix);
+void show_matrix(int row, int col, float **pp_matrix);
 
 
 
@@ -58,7 +58,7 @@ void show_matrix(int row, int col, int **pp_matrix);
 
  */
 
-void add_two_matrix(int row, int col, int **pp_matrix_a, int **pp_matrix_b);
+void add_two_matrix(int row, int col, float **pp_matrix_a, float **pp_matrix_b);
 
 
 
@@ -82,7 +82,7 @@ void add_two_matrix(int row, int col, int **pp_matrix_a, int **pp_matrix_b);
 
  */
 
-void multiply_matrix(int row, int col, int row_col, int **pp_matrix_a, int **pp_matrix_b, int **pp_matrix_c);
+void multiply_matrix(int row, int col, int row_col, float **pp_matrix_a, float **pp_matrix_b, float **pp_matrix_c);
 
 
 
@@ -140,7 +140,7 @@ int check_condition_for_multiplying(int col_a, int row_b);
 
  */
 
-void free_matrix(int row, int **pp_matrix);
+void free_matrix(int row, float **pp_matrix);
 
 
 

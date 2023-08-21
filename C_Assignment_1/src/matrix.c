@@ -4,7 +4,53 @@
 
 #include <stdlib.h>
 
+/* FUNCTION=================================================================
 
+ *  Function Name: check_valid_element
+
+ *  Description: Check valid input for element
+
+ ==========================================================================*/
+
+float check_valid_element() {
+
+    float element;
+
+    while(scanf("%f", &element) != 1) {
+
+        printf("Invalid element!\nEnter again:");
+
+        while (getchar() != '\n');
+
+    }
+
+    return element;
+
+}
+
+/* FUNCTION=================================================================
+
+ *  Function Name: check_valid_row_col
+
+ *  Description: Check valid input for row and column
+
+ ==========================================================================*/
+
+int check_valid_row_col() {
+
+    float num;
+
+    while(scanf("%f", &num) != 1 || num < 1 || num - (int)num != 0) {
+
+        printf("Invalid number!\n\nEnter again:");
+
+        while (getchar() != '\n');
+
+    }
+
+    return (int)num;
+
+}
 
 /* FUNCTION=================================================================
 
@@ -14,7 +60,7 @@
 
  ==========================================================================*/
 
-void input_matrix(int row, int col, int **pp_matrix) {
+void input_matrix(int row, int col, float **pp_matrix) {
 
     for (int i = 0; i < row; i++) {
 
@@ -22,7 +68,7 @@ void input_matrix(int row, int col, int **pp_matrix) {
 
             printf("Element [%d][%d]: ", i + 1, j + 1);
 
-            scanf("%d", &pp_matrix[i][j]);
+            pp_matrix[i][j] = check_valid_element();
 
         }
 
@@ -40,13 +86,13 @@ void input_matrix(int row, int col, int **pp_matrix) {
 
  ==========================================================================*/
 
-void show_matrix(int row, int col, int **pp_matrix) {
+void show_matrix(int row, int col, float **pp_matrix) {
 
     for (int i = 0; i < row; i++) {
 
         for (int j = 0; j < col; j++) {
 
-            printf("%d  ", pp_matrix[i][j]);
+            printf("%f  ", pp_matrix[i][j]);
 
         }
 
@@ -66,7 +112,7 @@ void show_matrix(int row, int col, int **pp_matrix) {
 
  ==========================================================================*/
 
-void add_two_matrix(int row, int col, int **pp_matrix_a, int **pp_matrix_b) {
+void add_two_matrix(int row, int col, float **pp_matrix_a, float **pp_matrix_b) {
 
     for (int i = 0; i < row; i++) {
 
@@ -92,7 +138,7 @@ void add_two_matrix(int row, int col, int **pp_matrix_a, int **pp_matrix_b) {
 
  ==========================================================================*/
 
-void multiply_matrix(int row, int col, int row_col, int **pp_matrix_a, int **pp_matrix_b, int **pp_matrix_c) {
+void multiply_matrix(int row, int col, int row_col, float **pp_matrix_a, float **pp_matrix_b, float **pp_matrix_c) {
 
     for (int i = 0; i < row; i++) {
 
@@ -156,7 +202,7 @@ int check_condition_for_multiplying(int col_a, int row_B) {
 
  ==========================================================================*/
 
-void free_matrix(int row, int **pp_matrix) {
+void free_matrix(int row, float **pp_matrix) {
 
     for (int i = 0; i < row; i++) {
 
