@@ -55,7 +55,9 @@ int check_id()
     // Loop until a valid positive integer input is provided
     while (scanf("%d", &id) != 1 || id < 0) 
     {
-        printf("Invalid input. Enter again:\nID:")/* FUNCTION=================================================================
+        printf("Invalid input. Enter again:\nID:")
+    }
+/* FUNCTION=================================================================
 
  *  Function Name: sort_employee_fullname
 
