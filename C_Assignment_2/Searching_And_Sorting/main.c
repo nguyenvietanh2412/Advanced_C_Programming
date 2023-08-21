@@ -16,7 +16,10 @@ int main()
     show_array(number, array);
 
     // Calculate and display the average value and the number of value less than it
-    calculate_average_value(number, array);
+    printf("\nAverage value of this array is: %.3f\n", calculate_average_value(number, array));
+    
+    // Count number of elements that are less than average value
+    printf("Number of elements that are less than the average value: %d\n", count_value_less_than_average(number, array));
 
     // Move even values to the right and odd values to the left
     move_even_right_and_odd_left(number, array);

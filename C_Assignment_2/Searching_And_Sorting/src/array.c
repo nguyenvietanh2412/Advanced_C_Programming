@@ -91,7 +91,7 @@ void show_array(int number, int array[])
  *  Description: Calculate the average value of all elements of array
 
  ==========================================================================*/
-void calculate_average_value(int number, int array[])
+float calculate_average_value(int number, int array[])
 {
     int i, count, sum;
     float average;
@@ -110,8 +110,20 @@ void calculate_average_value(int number, int array[])
             count++;
         }
     }
-    printf("\nAverage value: %.3f\n", average);
-    printf("Number of elements that is less than the average value: %d\n", count);
+    return average;
+}
+
+int count_value_less_than_average(int number, int array[])
+{
+    int i, count = 0;
+    for (i = 0; i < number; i++)
+    {
+        if (array[i] < calculate_average_value(number, array))
+        {
+            count++;
+        }
+    }
+    return count;
 }
 
 /* FUNCTION=================================================================

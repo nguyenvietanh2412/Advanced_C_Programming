@@ -62,7 +62,19 @@ static void swap(int *a, int *b);
  * @param array The array that is added to calculate
 
  */
-void calculate_average_value(int number, int array[]);
+float calculate_average_value(int number, int array[]);
+/**
+
+ * Count the number of elements that are less than average value
+
+ * 
+
+ * @param number The number of array
+
+ * @param array The array that is added to calculate
+
+ */
+int count_value_less_than_average(int number, int array[]);
 /**
 
  * Move even values to the right and odd values to the left
