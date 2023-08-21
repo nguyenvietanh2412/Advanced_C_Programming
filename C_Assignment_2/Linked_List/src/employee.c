@@ -57,6 +57,8 @@ int check_id()
     {
         printf("Invalid input. Enter again:\nID:")
     }
+    return id;
+}
 /* FUNCTION=================================================================
 
  *  Function Name: sort_employee_fullname
