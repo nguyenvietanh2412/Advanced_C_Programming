@@ -3,7 +3,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+/**
 
+ * Check valid number of elements of array from keyboard
+
+ */
+int check_number_element();
+/**
+
+ * Check valid elements of array from keyboard
+
+ */
+static int check_element();
 /**
 
  * Input the elements of array from keyboard
@@ -39,7 +50,7 @@ void show_array(int number, int array[]);
  * @param b The second element need to be swapped
 
  */
-void swap(int *a, int *b);
+static void swap(int *a, int *b);
 /**
 
  * Calculate the average value of all elements

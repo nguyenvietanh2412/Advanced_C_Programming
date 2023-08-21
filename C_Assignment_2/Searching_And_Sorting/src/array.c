@@ -1,8 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "array.h"
+#define MIN_ELEMENT 0
+#define MAX_ELEMENT 50
+/* FUNCTION=================================================================
 
+ *  Function Name: check_number_element
 
+ *  Description: Check valid number of elements of array
+
+ ==========================================================================*/
+int check_number_element()
+{
+    float number;
+    printf("Enter number of elements:");
+    while (scanf("%f", &number) != 1 || number < MIN_ELEMENT || number > MAX_ELEMENT || number - (int)number != 0)
+    {
+        printf("Invalid input. Enter again!\nEnter number of elements:");
+        while (getchar() != '\n');
+    }
+    return (int)number;
+}
+/* FUNCTION=================================================================
+
+ *  Function Name: check_element
+
+ *  Description: Check valid elements of array
+
+ ==========================================================================*/
+static int check_element()
+{
+    float element;
+    printf("Enter element:");
+    while (scanf("%f", &element) != 1 || element - (int)element != 0)
+    {
+        printf("Invalid input. Enter again!\nEnter element:");
+        while (getchar() != '\n');
+    }
+    return (int)element;
+}
 /* FUNCTION=================================================================
 
  *  Function Name: input_array
@@ -13,10 +49,9 @@
 void input_array(int number, int array[])
 {
     int i;
-    printf("Input elements:\n");
     for (i = 0; i < number; i++)
     {
-        scanf("%d", &array[i]);
+        array[i] = check_element();
     }
 }
 /* FUNCTION=================================================================
@@ -26,7 +61,7 @@ void input_array(int number, int array[])
  *  Description: swap odd value and even value
 
  ==========================================================================*/
-void swap(int *a, int *b)
+static void swap(int *a, int *b)
 {
     int temp = *a;
     *a = *b;

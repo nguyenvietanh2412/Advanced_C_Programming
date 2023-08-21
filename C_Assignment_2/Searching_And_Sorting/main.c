@@ -4,11 +4,7 @@ int main()
 {
     // Initialize the number of elements of array
     int number;
-
-    // Prompt the user to input the number of elements of array
-    printf("Type the number of elements: ");
-    scanf("%d", &number);
-
+    number = check_number_element();
     // Initialize array with input number
     int array[number];
 
