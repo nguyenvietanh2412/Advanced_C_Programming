@@ -5,41 +5,6 @@
 #include <ctype.h>
 #include "employee.h"
 
-
-
-/* FUNCTION=================================================================
-
- *  Function Name: input_new_employee
-
- *  Description: Add information of a new employee to the list.
-
- *  Parameters:
- *      - head: Pointer to the head of the employee list.
- *      - id: Employee ID.
- *      - fullname: Full name of the employee.
- *      - department: Department of the employee.
- *      - salary: Salary of the employee.
- *      - start_date: Start date of employment.
-
- ==========================================================================*/
-void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date) 
-{
-    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
-    if (new_employee == NULL) 
-    {
-        return;
-    }
-
-    new_employee->id = id;
-    new_employee->salary = salary;
-    strcpy(new_employee->fullname, fullname);
-    strcpy(new_employee->department, department);
-    strcpy(new_employee->start_date, start_date);
-    new_employee->next = *head;
-    *head = new_employee;
-}
-
-
 /* FUNCTION=================================================================
 
  *  Function Name: check_id
@@ -60,6 +25,28 @@ int check_id()
     }
     getchar();
     return id;
+}
+/* FUNCTION=================================================================
+
+ *  Function Name: check_duplicate_id.
+
+ *  Description: Check if id already existed.
+
+ ==========================================================================*/
+int check_duplicate_id(Employee *head, int id)
+{
+    Employee *current = head;
+
+    // Loop until reaching the end of the list
+    while (current != NULL)
+    {
+        if (current->id == id)
+        {
+            return 1;
+        }
+        current = current->next;
+    }
+    return 0;
 }
 /* FUNCTION=================================================================
 
@@ -201,10 +188,36 @@ void check_department(char *department) {
         department[strcspn(department, "\n")] = '\0';
     }
 }
+/* FUNCTION=================================================================
 
-void check_start_date(char *start_date)
+ *  Function Name: input_new_employee
+
+ *  Description: Add information of a new employee to the list.
+
+ *  Parameters:
+ *      - head: Pointer to the head of the employee list.
+ *      - id: Employee ID.
+ *      - fullname: Full name of the employee.
+ *      - department: Department of the employee.
+ *      - salary: Salary of the employee.
+ *      - start_date: Start date of employment.
+
+ ==========================================================================*/
+void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date) 
 {
-    
+    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
+    if (new_employee == NULL) 
+    {
+        return;
+    }
+
+    new_employee->id = id;
+    new_employee->salary = salary;
+    strcpy(new_employee->fullname, fullname);
+    strcpy(new_employee->department, department);
+    strcpy(new_employee->start_date, start_date);
+    new_employee->next = *head;
+    *head = new_employee;
 }
 /* FUNCTION=================================================================
 
@@ -227,6 +240,14 @@ void input_employee_information(Employee **employee, int number)
         printf("-------------------------------\n");
         printf("Employee %d:\n", i+1);
         id = check_id();
+        
+        // Check duplicated id before putting into the list
+        while (check_duplicate_id(*employee, id))
+        {
+            printf ("ID already exists. Enter again:\n");
+            id = check_id();
+        }
+
         check_fullname(fullname);
         check_department(department);
         salary = check_salary();
