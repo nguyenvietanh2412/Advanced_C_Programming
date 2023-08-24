@@ -23,7 +23,7 @@ typedef struct employee
  * @param salary Salary.
  * @param start_date Start date of employment.
  */
-void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date);
+void input_new_employee(Employee **head, Employee *new_employee, int id, const char *fullname, const char *department, int salary, const char *start_date);
 
 /**
  * Input information of multiple employees.
@@ -31,7 +31,7 @@ void input_new_employee(Employee **head, int id, const char *fullname, const cha
  * @param employee List of employees.
  * @param number Number of employees to input information for.
  */
-void input_employee_information(Employee **employee, int number);
+void input_employee_information(Employee **employee, Employee *new_employee, int number);
 
 /**
  * Display information of an employee.

@@ -203,14 +203,8 @@ void check_department(char *department) {
  *      - start_date: Start date of employment.
 
  ==========================================================================*/
-void input_new_employee(Employee **head, int id, const char *fullname, const char *department, int salary, const char *start_date) 
+void input_new_employee(Employee **head, Employee *new_employee, int id, const char *fullname, const char *department, int salary, const char *start_date) 
 {
-    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
-    if (new_employee == NULL) 
-    {
-        return;
-    }
-
     new_employee->id = id;
     new_employee->salary = salary;
     strcpy(new_employee->fullname, fullname);
@@ -230,7 +224,7 @@ void input_new_employee(Employee **head, int id, const char *fullname, const cha
  *      - number: Number of employees to be input.
 
  ==========================================================================*/
-void input_employee_information(Employee **employee, int number)
+void input_employee_information(Employee **employee, Employee *new_employee, int number)
 {
     int i;
     for (i = 0; i < number; i++)
@@ -257,7 +251,7 @@ void input_employee_information(Employee **employee, int number)
         start_date[strcspn(start_date, "\n")] = '\0';
 
         // Add the new employee to the employee list
-        input_new_employee(employee, id, fullname, department, salary, start_date);
+        input_new_employee(employee, new_employee, id, fullname, department, salary, start_date);
     }
 }
 /* FUNCTION=================================================================
@@ -499,11 +493,23 @@ void sort_employee_list(Employee **head)
  *      - new_employee: Pointer to the new employee node to be inserted.
 
  ==========================================================================*/
-void insert_at_head(Employee **head, Employee *new_employee) 
+void insert_at_head(Employee **head)//, Employee *new_employee) 
 {
-    input_employee_information(&new_employee, 1);
-    new_employee->next = *head;
-    *head = new_employee;
+    // int id = check_id();
+    // // Check for duplicate ID before inserting the new employee
+    // while (check_duplicate_id(*head, id))
+    // {
+    //     printf ("ID already exists. Enter again:\n");
+    //     id = check_id();
+    // }
+
+    // Input information for the new employee
+    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
+    input_employee_information(head, new_employee, 1);
+
+    // Insert the new employee at the head
+    // new_employee->next = *head;
+    // *head = new_employee;
 }
 
 /* FUNCTION=================================================================
@@ -517,10 +523,19 @@ void insert_at_head(Employee **head, Employee *new_employee)
  *      - new_employee: Pointer to the new employee node to be inserted.
 
  ==========================================================================*/
-void insert_at_tail(Employee **head, Employee *new_employee)
+void insert_at_tail(Employee **head)//, Employee *new_employee)
 {
+
+    // Allocate memory for the new employee
+    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
+    if (new_employee == NULL)
+    {
+        // Memory allocation failed
+        return; 
+    }
+
     // Input information for the new employee
-    input_employee_information(&new_employee, 1);
+    input_employee_information(head, new_employee, 1);
 
     // If the list is empty, set the new employee as the head
     if (*head == NULL)
@@ -552,15 +567,20 @@ void insert_at_tail(Employee **head, Employee *new_employee)
  *      - new_employee: Pointer to the new employee node to be inserted.
 
  ==========================================================================*/
-void insert_at_any_position(Employee **head, Employee *new_employee)
+void insert_at_any_position(Employee **head)//, Employee *new_employee)
 {
     // Initialize variables
     Employee *current = *head;
     int index, count;
     count = 1;
 
+    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
+    if (new_employee == NULL)
+    {
+        return;
+    }
     // Input information for the new employee
-    input_employee_information(&new_employee, 1);
+    input_employee_information(head, new_employee, 1);
 
     // Get the position to insert the new employee
     printf("Type position you want to add:");
@@ -569,7 +589,7 @@ void insert_at_any_position(Employee **head, Employee *new_employee)
     // If the list is empty or index is 1, insert at the beginning
     if (*head == NULL || index == 1)
     {
-        new_employee->next = NULL;
+        // new_employee->next = NULL;
         *head = new_employee;
     }
 
@@ -617,12 +637,6 @@ void insert_new_employee(Employee **head)
     // Loop to continuously insert new employees
     while (true)
     {
-        // Allocate memory for the new employee
-        Employee *new_employee = (Employee *)malloc(sizeof(Employee));
-        if (new_employee == NULL)
-        {
-            return; // Memory allocation failed
-        }
 
         // User's choice for insertion
         printf("\nEnter your inserting choice:\n");
@@ -637,28 +651,26 @@ void insert_new_employee(Employee **head)
         {
         case 1:
             // Insert at the beginning
-            insert_at_head(head, new_employee);
+            insert_at_head(head);//, new_employee);
             printf("\n-----LIST AFTER INSERTING AT HEAD-----\n");
             show_employee(*head);
             break;
 
         case 2:
             // Insert at the end
-            insert_at_tail(head, new_employee);
+            insert_at_tail(head);//, new_employee);
             printf("\n-----LIST AFTER INSERTING AT TAIL-----\n");
             show_employee(*head);
             break;
 
         case 3:
             // Insert at any position
-            insert_at_any_position(head, new_employee);
+            insert_at_any_position(head);//, new_employee);
             printf("\n-----LIST AFTER INSERTING AT SPECIFIC POSITION-----\n");
             show_employee(*head);
             break;
 
         case 0:
-            // Free memory and exit
-            free(new_employee);
             return;
             break;
 
