@@ -1,13 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
 #include "morse_code.h"
 #define MAX_LEN 1000
+
 Node *create_node(char data){
     Node *p_new_node = (Node *)malloc(sizeof(Node));
     p_new_node->data = data;
     p_new_node->left = p_new_node->right = NULL;
     return p_new_node;
+}
+bool is_alpha_character(char *text){
+    int i;
+    for (i = 0; text[i] != '\0'; i++){
+        if (!isalpha(text[i]) && !isspace(text[i]) && !isalnum(text[i])){
+            return false;
+        }
+    }
+    return true;
+}
+void check_alphabet(char *text){
+    printf("Enter a string: ");
+    fgets(text, 100, stdin);
+    text[strcspn(text, "\n")] = '\0';
+    while(strlen(text) == 0 || is_alpha_character(text) == false){
+        printf("Invalid string. Enter again.\nEnter a string:");
+        fgets(text, 100, stdin);
+        text[strcspn(text, "\n")] = '\0';
+    }
 }
 void insert_node(Node *root, char letter, char *code) {
     Node *current = root;
@@ -24,23 +46,6 @@ void insert_node(Node *root, char letter, char *code) {
     }
     current->data = letter;
 }
-// Node *insert_node(Node *p_root, char character, char *p_morse_code) {
-//     if (p_root == NULL) {
-//         p_root = create_node('\0');
-//     }
-
-//     if (strlen(p_morse_code) == 0) {
-//         p_root->data = character;
-//     } 
-//     else {
-//         if (p_morse_code[0] == '.') {
-//             p_root->left = insert_node(p_root->left, character, p_morse_code + 1);
-//         } else {
-//             p_root->right = insert_node(p_root->right, character, p_morse_code + 1);
-//         }
-//     }
-//     return p_root;
-// }
 void build_tree(Node *p_root) {
     FILE *p_file;
     p_file = fopen("morse.txt","r");
@@ -49,15 +54,36 @@ void build_tree(Node *p_root) {
         insert_node(p_root, character, morse_code);
     }
     fclose(p_file);
-    // char character[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    // char *p_morse_code[] = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---",
-    //                        "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-",
-    //                        "...-", ".--", "-..-", "-.--", "--..", "-----", ".----", "..---", "...--", "....-",
-    //                        ".....", "-....", "--...", "---..", "----." };
-
-    // for (int i = 0; i < 36; i++) {
-    //     p_root = insert_node(p_root, character[i], p_morse_code[i]);
-    // }
+}
+void search_letter(Node *p_root, char data, char *str){
+    int n = strlen(str);
+    if (p_root == NULL){
+        return;
+    }
+    if (p_root->data == data){
+        printf("%s", data);
+    }
+    str[n] = '.';
+    str[n+1] = '\0';
+    search_letter(p_root->left, data, str);
+    str[n] = '-';
+    search_letter(p_root->right, data, str);
+    str[n] = '\0';
+}
+void encode_to_morse(Node *p_root, char *str){
+    int i;
+    for (int i = 0; str[i]; i++) {
+        if (isalpha(str[i])) {
+            str[i] = toupper(str[i]);
+            char str[100] = "";
+            search_letter(p_root, str[i], str);
+        }
+        else if (isalnum(str[i])){
+            char str[100] = "";
+            search_letter(p_root, str[i], str);
+        }
+        else printf("/ ");
+    }
 }
 void decode_from_morse(Node *p_root, FILE *p_file) {
   
