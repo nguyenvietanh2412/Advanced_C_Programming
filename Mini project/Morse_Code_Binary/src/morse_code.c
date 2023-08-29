@@ -55,35 +55,40 @@ void build_tree(Node *p_root) {
     }
     fclose(p_file);
 }
-void search_letter(Node *p_root, char data, char *str){
-    int n = strlen(str);
+
+void search_letter(Node *p_root, char data, char *code){
+    int n = strlen(code);
     if (p_root == NULL){
         return;
     }
     if (p_root->data == data){
-        printf("%s", data);
+        printf("%s ", code);
     }
-    str[n] = '.';
-    str[n+1] = '\0';
-    search_letter(p_root->left, data, str);
-    str[n] = '-';
-    search_letter(p_root->right, data, str);
-    str[n] = '\0';
+    code[n] = '.';
+    code[n+1] = '\0';
+    search_letter(p_root->left, data, code);
+    code[n] = '-';
+    search_letter(p_root->right, data, code);
+    code[n] = '\0';
 }
-void encode_to_morse(Node *p_root, char *str){
+void encode_to_morse(Node *p_root, FILE *p_file){
     int i;
-    for (int i = 0; str[i]; i++) {
-        if (isalpha(str[i])) {
-            str[i] = toupper(str[i]);
-            char str[100] = "";
-            search_letter(p_root, str[i], str);
+    char str[100];
+    while (fgets(str, 100, p_file) != NULL){
+        for (int i = 0; str[i]; i++) {
+            if (isalpha(str[i])) {
+                str[i] = toupper(str[i]);
+                char code[100] = "";
+                search_letter(p_root, str[i], code);
+            }
+            else if (isalnum(str[i])){
+                char code[100] = "";
+                search_letter(p_root, str[i], code);
+            }
+            else printf("/ ");
         }
-        else if (isalnum(str[i])){
-            char str[100] = "";
-            search_letter(p_root, str[i], str);
-        }
-        else printf("/ ");
     }
+    fclose(p_file);
 }
 void decode_from_morse(Node *p_root, FILE *p_file) {
   

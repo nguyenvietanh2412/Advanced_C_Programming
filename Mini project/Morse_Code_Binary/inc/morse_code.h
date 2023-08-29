@@ -10,3 +10,4 @@ typedef struct node{
 Node *create_node(char data);
 void build_tree(Node *root);
 void decode_from_morse(Node* root, FILE *p_file);
+void encode_to_morse(Node *p_root, FILE *p_file);
