@@ -1,19 +1,10 @@
 CC = gcc
+CFLAGS = -I./caesar_cipher/inc -I./file_handling/inc
+OBJ = main.o caesar_cipher/src/caesar_cipher.o file_handling/src/file_handling.o
 
-CFLAGS = -I./inc
-
-SOURCES = main.c ./src/*.c
-
-TARGET = run
-
-
-
-$(TARGET): $(SOURCES)
-
-	$(CC) -o $(TARGET) $(SOURCES) $(CFLAGS)
-
+main: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 
 clean:
-
-	rm -rf $(TARGET)
+	rm -f $(OBJ) main

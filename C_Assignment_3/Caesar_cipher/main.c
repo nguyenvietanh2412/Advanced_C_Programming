@@ -1,9 +1,10 @@
+#include <stdio.h>
 #include "caesar_cipher.h"
 
 int main()
 {
     int choice;
-    
+    FILE *p_file_input, *p_file_output;
     // Loop to continuously prompt the user for action
     while(1)
     {

@@ -3,18 +3,18 @@
 #include <ctype.h>
 #include <string.h>
 #include "caesar_cipher.h"
+#include "file_handling.h"
 
 // Function to validate and retrieve a valid encryption shift
 int check_encrypting_shift()
 {
     float shift;
     printf("Encrypting shift: ");
-    
     // Loop until a valid negative integer input is provided
-    while (scanf("%f", &shift) != 1 || (shift < 0 && shift > -26) || shift - (int)shift != 0) 
+    while (scanf("%f", &shift) != 1 || shift <= 0 || shift > 26 || shift - (int)shift != 0) 
     {
         printf("Invalid encrypting shift. Enter again:\nEncrypting shift: ");
-        while (getchar() != '\n');
+        while(getchar() != '\n');
     }
     return (int)shift;
 }
@@ -26,7 +26,7 @@ int check_decrypting_shift()
     printf("Decrypting shift: ");
     
     // Loop until a valid negative integer input is provided
-    while (scanf("%f", &shift) != 1 || (shift < 0 && shift > -26) || shift - (int)shift != 0) 
+    while (scanf("%f", &shift) != 1 || (shift >= 0 || shift < -26) || shift - (int)shift != 0) 
     {
         printf("Invalid decrypting shift. Enter again:\nDecrypting shift: ");
         while (getchar() != '\n');
@@ -49,48 +49,30 @@ char convert_caesar_cipher(char c, int shift)
 // Function to perform Caesar cipher encryption/decryption on a file
 void encrypt_and_decrypt(int shift)
 {
-    FILE *p_file;
-    FILE *p_file_result;
-    char p_file_name[100];
-    char p_file_name_result[100];
-
-    // Prompt user for input and output file names
-    printf("Enter file to open: ");
-    scanf("%s", p_file_name);
-    printf("Enter file to save result: ");
-    scanf("%s", p_file_name_result);
-
-    // Open input and output files
-    p_file = fopen(p_file_name, "r");
-    p_file_result = fopen(p_file_name_result, "w");
-
-    // Check if files are opened successfully
-    if (p_file == NULL)
-    {
-        perror("Error opening input file");
-        exit(1);
-    }
-    if (p_file_result == NULL)
-    {
-        perror("Error opening output file");
-        exit(1);
-    }
-    
+    open_file();
     // Process each character in the input file
     char c;
-    while ((c = fgetc(p_file)) != EOF)
+    while ((c = fgetc(p_file_input)) != EOF)
     {
+        // printf("%c", c);
         char encrypt_c = convert_caesar_cipher(c, shift);
-        
         // Write encrypted/decrypted character to the output file
-        if (fputc(encrypt_c, p_file_result) == EOF)
+        if (fputc(encrypt_c, p_file_output) == EOF)
         {
             printf("Error writing to file.");
             exit(1);
         }
     }
-    
+
     // Close files
-    fclose(p_file);
-    fclose(p_file_result);
+    fclose(p_file_input);
+    fclose(p_file_output);
+    // Display the content of the output file
+    p_file_output = fopen(file_name_output, "r");
+    while ((c = fgetc(p_file_output)) != EOF)
+    {
+        printf("%c", c);
+    }
+    printf("\n");
+    fclose(p_file_output);
 }
