@@ -1,19 +1,10 @@
 CC = gcc
+CFLAGS = -I./morse_code/inc -I./file_handling/inc
+OBJ = main.o morse_code/src/morse_code.o file_handling/src/file_handling.o
 
-CFLAGS = -I./inc
-
-SOURCES = main.c ./src/*.c
-
-TARGET = run
-
-
-
-$(TARGET): $(SOURCES)
-
-	$(CC) -o $(TARGET) $(SOURCES) $(CFLAGS)
-
+main: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 
 clean:
-
-	rm -rf $(TARGET)
+	rm -f $(OBJ) main

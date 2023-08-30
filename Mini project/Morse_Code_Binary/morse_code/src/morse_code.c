@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include "morse_code.h"
+#include "file_handling.h"
 #define MAX_LEN 1000
 
 Node *create_node(char data){
@@ -63,6 +64,7 @@ void search_letter(Node *p_root, char data, char *code){
     }
     if (p_root->data == data){
         printf("%s ", code);
+        fprintf(p_file_result, "%s ", code);
     }
     code[n] = '.';
     code[n+1] = '\0';
@@ -71,11 +73,11 @@ void search_letter(Node *p_root, char data, char *code){
     search_letter(p_root->right, data, code);
     code[n] = '\0';
 }
-void encode_to_morse(Node *p_root, FILE *p_file){
+void encode_to_morse(Node *p_root){
     int i;
-    char str[100];
+    char str[200];
     while (fgets(str, 100, p_file) != NULL){
-        for (int i = 0; str[i]; i++) {
+        for (int i = 0; str[i] != '\0'; i++) {
             if (isalpha(str[i])) {
                 str[i] = toupper(str[i]);
                 char code[100] = "";
@@ -85,15 +87,23 @@ void encode_to_morse(Node *p_root, FILE *p_file){
                 char code[100] = "";
                 search_letter(p_root, str[i], code);
             }
-            else printf("/ ");
+            else if (str[i] == '\n'){
+                printf("\n");
+                fprintf(p_file_result, "%s", "\n");
+            }
+            else {
+                printf("/ ");
+                fprintf(p_file_result, "%s", "/ ");
+            }
         }
     }
+    fclose(p_file_result);
     fclose(p_file);
 }
-void decode_from_morse(Node *p_root, FILE *p_file) {
+void decode_from_morse(Node *p_root){
   
     Node *p_current = p_root;
-    char p_str[100];
+    char p_str[200];
     // file_to_be_decoded.txt
     while(fgets(p_str, 100, p_file) != NULL){ 
         for (int i = 0; i < strlen(p_str); i++) {
@@ -104,21 +114,27 @@ void decode_from_morse(Node *p_root, FILE *p_file) {
             else if (p_str[i] == ' '){
                 if (p_current != p_root) {
                     printf("%c", p_current->data);
+                    fputc((int)p_current->data, p_file_result);
                     p_current = p_root;
                 }
                 if (p_str[i+1] == '/') {
                     printf(" ");
+                    fputc(' ', p_file_result);
                 }
             }
             else if (p_str[i] == '\n'){
                 printf("%c\n", p_current->data);
+                fputc((int)p_current->data, p_file_result);
+                fputc('\n', p_file_result);
                 p_current = p_root;
             }
         }
         if (p_current != p_root) {
         printf("%c", p_current->data);
+        fputc((int)p_current->data, p_file_result);
         p_current = p_root;
         }
     }
+    fclose(p_file_result);
     fclose(p_file);
 }
