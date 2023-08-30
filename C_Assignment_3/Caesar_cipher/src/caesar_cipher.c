@@ -61,8 +61,8 @@ void encrypt_and_decrypt(int shift)
     scanf("%s", p_file_name_result);
 
     // Open input and output files
-    p_file = fopen("encrypt.txt", "r");
-    p_file_result = fopen("decrypt.txt", "w");
+    p_file = fopen(p_file_name, "r");
+    p_file_result = fopen(p_file_name_result, "w");
 
     // Check if files are opened successfully
     if (p_file == NULL)
