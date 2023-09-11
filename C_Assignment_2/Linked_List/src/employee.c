@@ -33,14 +33,14 @@ int check_id()
  *  Description: Check if id already existed.
 
  ==========================================================================*/
-int check_duplicate_id(Employee *head, int id)
+int check_duplicate_id(employee_t *head, int id)
 {
-    Employee *current = head;
+    employee_t *current = head;
 
     // Loop until reaching the end of the list
     while (current != NULL)
     {
-        if (current->id == id)
+        if (current->emp.id == id)
         {
             return 1;
         }
@@ -196,20 +196,26 @@ void check_department(char *department) {
 
  *  Parameters:
  *      - head: Pointer to the head of the employee list.
- *      - id: Employee ID.
+ *      - id: employee_t ID.
  *      - fullname: Full name of the employee.
  *      - department: Department of the employee.
  *      - salary: Salary of the employee.
  *      - start_date: Start date of employment.
 
  ==========================================================================*/
-void input_new_employee(Employee **head, Employee *new_employee, int id, const char *fullname, const char *department, int salary, const char *start_date) 
+void input_new_employee(employee_t **head, int id, const char *fullname, const char *department, int salary, const char *start_date) 
 {
-    new_employee->id = id;
-    new_employee->salary = salary;
-    strcpy(new_employee->fullname, fullname);
-    strcpy(new_employee->department, department);
-    strcpy(new_employee->start_date, start_date);
+    employee_t *new_employee = (employee_t *)malloc(sizeof(employee_t));
+    if (new_employee == NULL) 
+    {
+        return;
+    }
+
+    new_employee->emp.id = id;
+    new_employee->emp.salary = salary;
+    strcpy(new_employee->emp.fullname, fullname);
+    strcpy(new_employee->emp.department, department);
+    strcpy(new_employee->emp.start_date, start_date);
     new_employee->next = *head;
     *head = new_employee;
 }
@@ -224,7 +230,7 @@ void input_new_employee(Employee **head, Employee *new_employee, int id, const c
  *      - number: Number of employees to be input.
 
  ==========================================================================*/
-void input_employee_information(Employee **employee, Employee *new_employee, int number)
+void input_employee_information(employee_t **employee, int number)
 {
     int i;
     for (i = 0; i < number; i++)
@@ -251,7 +257,7 @@ void input_employee_information(Employee **employee, Employee *new_employee, int
         start_date[strcspn(start_date, "\n")] = '\0';
 
         // Add the new employee to the employee list
-        input_new_employee(employee, new_employee, id, fullname, department, salary, start_date);
+        input_new_employee(employee, id, fullname, department, salary, start_date);
     }
 }
 /* FUNCTION=================================================================
@@ -264,15 +270,15 @@ void input_employee_information(Employee **employee, Employee *new_employee, int
  *      - employee: Pointer to the head of the employee list.
 
  ==========================================================================*/
-void show_employee(Employee *employee)
+void show_employee(employee_t *employee)
 {
     while(employee != NULL)
     {
-        printf("ID: %d\n", employee->id);
-        printf("Fullname: %s\n", employee->fullname);
-        printf("Department: %s\n", employee->department);
-        printf("Salary: %d\n", employee->salary);
-        printf("Start date: %s\n\n", employee->start_date);
+        printf("ID: %d\n", employee->emp.id);
+        printf("Fullname: %s\n", employee->emp.fullname);
+        printf("Department: %s\n", employee->emp.department);
+        printf("Salary: %d\n", employee->emp.salary);
+        printf("Start date: %s\n\n", employee->emp.start_date);
         employee = employee->next;
     }
 }
@@ -287,9 +293,9 @@ void show_employee(Employee *employee)
  *      - unsorted_node: Pointer to the employee node to be inserted.
 
  ==========================================================================*/
-void sort_employ_salary_ascending(Employee **head, Employee *unsorted_node) 
+void sort_employ_salary_ascending(employee_t **head, employee_t *unsorted_node) 
 {
-    if (*head == NULL || unsorted_node->salary <= (*head)->salary) 
+    if (*head == NULL || unsorted_node->emp.salary <= (*head)->emp.salary) 
     {
         // Insert the unsorted_node at the beginning of the list
         unsorted_node->next = *head;
@@ -297,10 +303,10 @@ void sort_employ_salary_ascending(Employee **head, Employee *unsorted_node)
     } 
     else 
     {
-        Employee *current_sorted_node = *head;
+        employee_t *current_sorted_node = *head;
 
         // Traverse the sorted list to find the appropriate position for insertion
-        while (current_sorted_node->next != NULL && current_sorted_node->next->salary < unsorted_node->salary) 
+        while (current_sorted_node->next != NULL && current_sorted_node->next->emp.salary < unsorted_node->emp.salary) 
         {
             current_sorted_node = current_sorted_node->next;
         }
@@ -322,9 +328,9 @@ void sort_employ_salary_ascending(Employee **head, Employee *unsorted_node)
  *      - unsorted_node: Pointer to the employee node to be inserted.
 
  ==========================================================================*/
-void sort_employ_salary_descending(Employee **head, Employee *unsorted_node) 
+void sort_employ_salary_descending(employee_t **head, employee_t *unsorted_node) 
 {
-    if (*head == NULL || unsorted_node->salary >= (*head)->salary) 
+    if (*head == NULL || unsorted_node->emp.salary >= (*head)->emp.salary) 
     {
         // Insert the unsorted_node at the beginning of the list
         unsorted_node->next = *head;
@@ -332,10 +338,10 @@ void sort_employ_salary_descending(Employee **head, Employee *unsorted_node)
     } 
     else 
     {
-        Employee *current_sorted_node = *head;
+        employee_t *current_sorted_node = *head;
 
         // Traverse the sorted list to find the appropriate position for insertion
-        while (current_sorted_node->next != NULL && current_sorted_node->next->salary > unsorted_node->salary) 
+        while (current_sorted_node->next != NULL && current_sorted_node->next->emp.salary > unsorted_node->emp.salary) 
         {
             current_sorted_node = current_sorted_node->next;
         }
@@ -357,14 +363,14 @@ void sort_employ_salary_descending(Employee **head, Employee *unsorted_node)
  *      - unsorted_node: Pointer to the employee node to be inserted.
 
  ==========================================================================*/
-void sort_employee_fullname(Employee **head, Employee *unsorted_node) 
+void sort_employee_fullname(employee_t **head, employee_t *unsorted_node) 
 {
     if (unsorted_node == NULL) 
     {
         return; // Return if the unsorted_node is NULL
     }
 
-    if (*head == NULL || strncmp(unsorted_node->fullname, (*head)->fullname, 50) <= 0) 
+    if (*head == NULL || strncmp(unsorted_node->emp.fullname, (*head)->emp.fullname, 50) <= 0) 
     {
         // Insert the unsorted_node at the beginning of the list
         unsorted_node->next = *head;
@@ -372,10 +378,10 @@ void sort_employee_fullname(Employee **head, Employee *unsorted_node)
     } 
     else 
     {
-        Employee *current_sorted_node = *head;
+        employee_t *current_sorted_node = *head;
 
         // Traverse the sorted list to find the appropriate position for insertion
-        while (current_sorted_node->next != NULL && strncmp(current_sorted_node->next->fullname, unsorted_node->fullname, 50) > 0) 
+        while (current_sorted_node->next != NULL && strncmp(current_sorted_node->next->emp.fullname, unsorted_node->emp.fullname, 50) > 0) 
         {
             current_sorted_node = current_sorted_node->next;
         }
@@ -396,10 +402,10 @@ void sort_employee_fullname(Employee **head, Employee *unsorted_node)
  *      - head: Pointer to the pointer of the head of the employee list.
 
  ==========================================================================*/
-void sort_employee_list(Employee **head) 
+void sort_employee_list(employee_t **head) 
 {
-    Employee *sorted_employ;
-    Employee *current;
+    employee_t *sorted_employ;
+    employee_t *current;
     int choice;
 
     while (true) 
@@ -422,7 +428,7 @@ void sort_employee_list(Employee **head)
             // Loop through the employee list and sort by salary ascendingly
             while (current != NULL) 
             {
-                Employee *next = current->next;
+                employee_t *next = current->next;
                 current->next = NULL;
                 sort_employ_salary_ascending(&sorted_employ, current);
                 current = next;
@@ -441,7 +447,7 @@ void sort_employee_list(Employee **head)
             // Loop through the employee list and sort by salary descendingly
             while (current != NULL) 
             {
-                Employee *next = current->next;
+                employee_t *next = current->next;
                 current->next = NULL;
                 sort_employ_salary_descending(&sorted_employ, current);
                 current = next;
@@ -460,7 +466,7 @@ void sort_employee_list(Employee **head)
             // Loop through the employee list and sort by fullname
             while (current != NULL) 
             {
-                Employee *next = current->next;
+                employee_t *next = current->next;
                 current->next = NULL;
                 sort_employee_fullname(&sorted_employ, current);
                 current = next;
@@ -493,21 +499,16 @@ void sort_employee_list(Employee **head)
  *      - new_employee: Pointer to the new employee node to be inserted.
 
  ==========================================================================*/
-void insert_at_head(Employee **head)//, Employee *new_employee) 
+void insert_at_head(employee_t **head)//, employee_t *new_employee) 
 {
-    // int id = check_id();
-    // // Check for duplicate ID before inserting the new employee
-    // while (check_duplicate_id(*head, id))
-    // {
-    //     printf ("ID already exists. Enter again:\n");
-    //     id = check_id();
-    // }
-
-    // Input information for the new employee
-    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
-    input_employee_information(head, new_employee, 1);
-
-    // Insert the new employee at the head
+    int id;
+    id = check_id();
+    while (check_duplicate_id(*head, id))
+    {
+        printf("ID already exists. Enter again.\n");
+        id = check_id();
+    }
+    input_employee_information(head, 1);
     // new_employee->next = *head;
     // *head = new_employee;
 }
@@ -523,19 +524,17 @@ void insert_at_head(Employee **head)//, Employee *new_employee)
  *      - new_employee: Pointer to the new employee node to be inserted.
 
  ==========================================================================*/
-void insert_at_tail(Employee **head)//, Employee *new_employee)
+void insert_at_tail(employee_t **head, employee_t *new_employee)
 {
-
-    // Allocate memory for the new employee
-    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
-    if (new_employee == NULL)
+    int id;
+    id = check_id();
+    while (check_duplicate_id(*head, id))
     {
-        // Memory allocation failed
-        return; 
+        printf("ID already exists. Enter again.\n");
+        id = check_id();
     }
-
     // Input information for the new employee
-    input_employee_information(head, new_employee, 1);
+    input_employee_information(&new_employee, 1);
 
     // If the list is empty, set the new employee as the head
     if (*head == NULL)
@@ -546,7 +545,7 @@ void insert_at_tail(Employee **head)//, Employee *new_employee)
     }
 
     // Traverse to the end of the list
-    Employee *current = *head;
+    employee_t *current = *head;
     while (current->next != NULL)
     {
         current = current->next;
@@ -567,20 +566,20 @@ void insert_at_tail(Employee **head)//, Employee *new_employee)
  *      - new_employee: Pointer to the new employee node to be inserted.
 
  ==========================================================================*/
-void insert_at_any_position(Employee **head)//, Employee *new_employee)
+void insert_at_any_position(employee_t **head, employee_t *new_employee)
 {
     // Initialize variables
-    Employee *current = *head;
-    int index, count;
+    employee_t *current = *head;
+    int index, count, id;
     count = 1;
-
-    Employee *new_employee = (Employee *)malloc(sizeof(Employee));
-    if (new_employee == NULL)
+    id = check_id();
+    while (check_duplicate_id(*head, id))
     {
-        return;
+        printf("ID already exists. Enter again.\n");
+        id = check_id();
     }
     // Input information for the new employee
-    input_employee_information(head, new_employee, 1);
+    input_employee_information(&new_employee, 1);
 
     // Get the position to insert the new employee
     printf("Type position you want to add:");
@@ -589,7 +588,7 @@ void insert_at_any_position(Employee **head)//, Employee *new_employee)
     // If the list is empty or index is 1, insert at the beginning
     if (*head == NULL || index == 1)
     {
-        // new_employee->next = NULL;
+        new_employee->next = NULL;
         *head = new_employee;
     }
 
@@ -629,7 +628,7 @@ void insert_at_any_position(Employee **head)//, Employee *new_employee)
  *      - head: Pointer to the pointer of the head of the employee list.
 
  ==========================================================================*/
-void insert_new_employee(Employee **head)
+void insert_new_employee(employee_t **head)
 {
     // Initialize variables
     int choice, number;
@@ -637,6 +636,12 @@ void insert_new_employee(Employee **head)
     // Loop to continuously insert new employees
     while (true)
     {
+        // Allocate memory for the new employee
+        employee_t *new_employee = (employee_t *)malloc(sizeof(employee_t));
+        if (new_employee == NULL)
+        {
+            return; // Memory allocation failed
+        }
 
         // User's choice for insertion
         printf("\nEnter your inserting choice:\n");
@@ -658,19 +663,21 @@ void insert_new_employee(Employee **head)
 
         case 2:
             // Insert at the end
-            insert_at_tail(head);//, new_employee);
+            insert_at_tail(head, new_employee);
             printf("\n-----LIST AFTER INSERTING AT TAIL-----\n");
             show_employee(*head);
             break;
 
         case 3:
             // Insert at any position
-            insert_at_any_position(head);//, new_employee);
+            insert_at_any_position(head, new_employee);
             printf("\n-----LIST AFTER INSERTING AT SPECIFIC POSITION-----\n");
             show_employee(*head);
             break;
 
         case 0:
+            // Free memory and exit
+            free(new_employee);
             return;
             break;
 

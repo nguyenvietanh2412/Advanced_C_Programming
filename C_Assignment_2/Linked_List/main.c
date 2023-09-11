@@ -4,8 +4,9 @@
 int main()
 {
     // Initialize the list of employees
-    Employee *head = NULL; 
+    employee_t *head = NULL; 
     int number, option;
+
     // Infinite loop for menu options
     while(true) 
     {
@@ -23,18 +24,16 @@ int main()
         switch (option)
         {
         case 1:
-        {
-            Employee *new_employee = (Employee *)malloc(sizeof(Employee));
             // Input employee information
             printf("Enter number of employees: ");
             scanf("%d", &number);
-            input_employee_information(&head, new_employee, number);
+            input_employee_information(&head, number);
             
             // Display the original employee list
             printf("\n-----ORIGINAL EMPLOYEE LIST-----\n");
             show_employee(head);
             break;
-        }
+
         case 2:
             // Insert a new employee into the list
             insert_new_employee(&head);
