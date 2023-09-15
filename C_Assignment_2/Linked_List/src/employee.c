@@ -5,6 +5,44 @@
 #include <ctype.h>
 #include "employee.h"
 
+int is_valid_date(char *start_date)
+{
+    int day;
+    int month;
+    int year;
+    int max_day = 31;
+    char extra_character[2];
+    if (sscanf(start_date, "%d/%d/%d%1s", &day, &month, &year, extra_character) != 3) {
+        return 0;
+    }
+
+    if (month == 4 || month == 6 || month == 9 || month == 11) {
+        max_day = 30;
+    } else if (month == 2) {
+        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
+            max_day = 29;
+        } else {
+            max_day = 28;
+        }
+    }
+
+    return day > 0 && day <= max_day && month > 0 && month < 13 && year > 0;
+}
+void check_date(char *start_date, int size)
+{
+    do {
+        printf("Start date (DD/MM/YYYY): ");
+        fgets(start_date, size, stdin);
+
+        start_date[strcspn(start_date, "\n")] = '\0';
+
+        if (is_valid_date(start_date)) {
+            break;
+        } else {
+            printf("Invalid input. Enter again:\n");
+        }
+    } while (1);
+}
 /* FUNCTION=================================================================
 
  *  Function Name: check_id
@@ -81,10 +119,10 @@ int check_salary()
  ==========================================================================*/
 bool is_alphabet_character(char *fullname) 
 {
-    int i;
-    bool is_no_space = false;
+    int i = 0;
+    bool b_space = false;
 
-    for (i = 0; fullname[i] != '\0'; i++) 
+    for (i; fullname[i] != '\0'; i++) 
     {
         // Check if the character is not an alphabet character and not a space
         if (!isalpha(fullname[i]) && !isspace(fullname[i])) 
@@ -96,12 +134,12 @@ bool is_alphabet_character(char *fullname)
         // Check if the character is not a space
         if (!isspace(fullname[i])) 
         {
-            is_no_space = true;
+            b_space = true;
         }
     }
 
     // Return true if at least one non-space alphabet character is found
-    return is_no_space; 
+    return b_space; 
 }
 
 /* FUNCTION=================================================================
@@ -147,8 +185,8 @@ void check_fullname(char *fullname)
 
  ==========================================================================*/
 bool is_character_or_integer(char *department) {
-    int i;
-    for (i = 0; department[i] != '\0'; i++) 
+    int i = 0;
+    for (i; department[i] != '\0'; i++) 
     {
        
         // Check if the character is neither an alphabet character nor a digit
@@ -232,11 +270,14 @@ void input_new_employee(employee_t **head, int id, const char *fullname, const c
  ==========================================================================*/
 void input_employee_information(employee_t **employee, int number)
 {
-    int i;
-    for (i = 0; i < number; i++)
+    int i = 0;
+    for (i; i < number; i++)
     {
-        int id, salary;
-        char fullname[50], department[50], start_date[50];
+        int id = 0;
+        int salary = 0;
+        char fullname[50] = {0};
+        char department[50]= {0};
+        char start_date[50] = {0};
         printf("-------------------------------\n");
         printf("Employee %d:\n", i+1);
         id = check_id();
@@ -251,10 +292,7 @@ void input_employee_information(employee_t **employee, int number)
         check_fullname(fullname);
         check_department(department);
         salary = check_salary();
-
-        printf("Start date: ");
-        fgets(start_date, sizeof(start_date), stdin);
-        start_date[strcspn(start_date, "\n")] = '\0';
+        check_date(start_date, sizeof(start_date));
 
         // Add the new employee to the employee list
         input_new_employee(employee, id, fullname, department, salary, start_date);
@@ -404,8 +442,8 @@ void sort_employee_fullname(employee_t **head, employee_t *unsorted_node)
  ==========================================================================*/
 void sort_employee_list(employee_t **head) 
 {
-    employee_t *sorted_employ;
-    employee_t *current;
+    employee_t *sorted_employ = NULL;
+    employee_t *current = NULL;
     int choice;
 
     while (true) 
@@ -421,69 +459,69 @@ void sort_employee_list(employee_t **head)
 
         switch (choice) 
         {
-        case 1:
-            sorted_employ = NULL;
-            current = *head;
+            case 1:
+                sorted_employ = NULL;
+                current = *head;
 
-            // Loop through the employee list and sort by salary ascendingly
-            while (current != NULL) 
-            {
-                employee_t *next = current->next;
-                current->next = NULL;
-                sort_employ_salary_ascending(&sorted_employ, current);
-                current = next;
-            }
+                // Loop through the employee list and sort by salary ascendingly
+                while (current != NULL) 
+                {
+                    employee_t *next = current->next;
+                    current->next = NULL;
+                    sort_employ_salary_ascending(&sorted_employ, current);
+                    current = next;
+                }
 
-            *head = sorted_employ;
+                *head = sorted_employ;
 
-            printf("------SORT SALARY OF EMPLOYEES ASCENDINGLY------\n");
-            show_employee(sorted_employ);
-            break;
+                printf("------SORT SALARY OF EMPLOYEES ASCENDINGLY------\n");
+                show_employee(sorted_employ);
+                break;
 
-        case 2:
-            sorted_employ = NULL;
-            current = *head;
+            case 2:
+                sorted_employ = NULL;
+                current = *head;
 
-            // Loop through the employee list and sort by salary descendingly
-            while (current != NULL) 
-            {
-                employee_t *next = current->next;
-                current->next = NULL;
-                sort_employ_salary_descending(&sorted_employ, current);
-                current = next;
-            }
+                // Loop through the employee list and sort by salary descendingly
+                while (current != NULL) 
+                {
+                    employee_t *next = current->next;
+                    current->next = NULL;
+                    sort_employ_salary_descending(&sorted_employ, current);
+                    current = next;
+                }
 
-            *head = sorted_employ;
+                *head = sorted_employ;
 
-            printf("------SORT SALARY OF EMPLOYEES DESCENDINGLY------\n");
-            show_employee(sorted_employ);
-            break;
+                printf("------SORT SALARY OF EMPLOYEES DESCENDINGLY------\n");
+                show_employee(sorted_employ);
+                break;
 
-        case 3:
-            sorted_employ = NULL;
-            current = *head;
+            case 3:
+                sorted_employ = NULL;
+                current = *head;
 
-            // Loop through the employee list and sort by fullname
-            while (current != NULL) 
-            {
-                employee_t *next = current->next;
-                current->next = NULL;
-                sort_employee_fullname(&sorted_employ, current);
-                current = next;
-            }
+                // Loop through the employee list and sort by fullname
+                while (current != NULL) 
+                {
+                    employee_t *next = current->next;
+                    current->next = NULL;
+                    sort_employee_fullname(&sorted_employ, current);
+                    current = next;
+                }
 
-            *head = sorted_employ;
+                *head = sorted_employ;
 
-            printf("------SORT EMPLOYEES BY FULLNAME (A->Z)------\n");
-            show_employee(sorted_employ);
-            break;
+                printf("------SORT EMPLOYEES BY FULLNAME (A->Z)------\n");
+                show_employee(sorted_employ);
+                break;
 
-        case 0:
-            return; // Exit the function
-            break;
+            case 0:
+                return; // Exit the function
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
     }
 }
@@ -501,7 +539,7 @@ void sort_employee_list(employee_t **head)
  ==========================================================================*/
 void insert_at_head(employee_t **head)//, employee_t *new_employee) 
 {
-    int id;
+    int id = 0;
     id = check_id();
     while (check_duplicate_id(*head, id))
     {
@@ -526,7 +564,7 @@ void insert_at_head(employee_t **head)//, employee_t *new_employee)
  ==========================================================================*/
 void insert_at_tail(employee_t **head, employee_t *new_employee)
 {
-    int id;
+    int id = 0;
     id = check_id();
     while (check_duplicate_id(*head, id))
     {
@@ -570,8 +608,9 @@ void insert_at_any_position(employee_t **head, employee_t *new_employee)
 {
     // Initialize variables
     employee_t *current = *head;
-    int index, count, id;
-    count = 1;
+    int index;
+    int count = 1;
+    int id = 0;
     id = check_id();
     while (check_duplicate_id(*head, id))
     {
@@ -631,7 +670,7 @@ void insert_at_any_position(employee_t **head, employee_t *new_employee)
 void insert_new_employee(employee_t **head)
 {
     // Initialize variables
-    int choice, number;
+    int choice;
 
     // Loop to continuously insert new employees
     while (true)
@@ -678,6 +717,7 @@ void insert_new_employee(employee_t **head)
         case 0:
             // Free memory and exit
             free(new_employee);
+            new_employee = NULL;
             return;
             break;
 

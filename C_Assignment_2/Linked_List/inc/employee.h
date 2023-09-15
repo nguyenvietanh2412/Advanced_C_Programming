@@ -7,8 +7,11 @@
 // Structure representing data of an employee
 typedef struct data
 {
-    int id, salary;
-    char fullname[50], department[50], start_date[50];
+    int id;
+    int salary;
+    char fullname[50];
+    char department[50];
+    char start_date[50];
 } data_t;
 // Structure representing an employee
 typedef struct employee
@@ -18,8 +21,23 @@ typedef struct employee
     struct data emp;
     struct employee *next;
 } employee_t;
-
+/**
+ * Check if a date prompted from keyboard is valid or not
+ * 
+ * @param start_date The starting date of employees.
+ */
+int is_valid_date(char *start_date);
+/**
+ * Check if an id is duplicated
+ * 
+ * @param head List of employees.
+ * @param id Employee ID.
+ */
 int check_duplicate_id(employee_t *head, int id);
+/**
+ * Prompt user to input id from keyboard
+ * 
+ */
 int check_id();
 /**
  * Add information of a new employee to the list.

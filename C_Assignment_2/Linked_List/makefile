@@ -10,7 +10,7 @@ TARGET = run
 
 $(TARGET): $(SOURCES)
 
-	$(CC) -o $(TARGET) $(SOURCES) $(CFLAGS)
+	$(CC) -g -o $(TARGET) $(SOURCES) $(CFLAGS)
 
 
 

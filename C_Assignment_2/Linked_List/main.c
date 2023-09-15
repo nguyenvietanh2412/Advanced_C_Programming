@@ -5,7 +5,8 @@ int main()
 {
     // Initialize the list of employees
     employee_t *head = NULL; 
-    int number, option;
+    int number;
+    int option;
 
     // Infinite loop for menu options
     while(true) 
