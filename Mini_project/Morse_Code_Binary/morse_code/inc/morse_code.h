@@ -13,4 +13,5 @@ Node *create_node(char data);
 void build_tree(Node *root);
 void decode_from_morse(Node* root);
 void encode_to_morse(Node *p_root);
+void free_tree(Node *root);
 #endif

@@ -138,3 +138,12 @@ void decode_from_morse(Node *p_root){
     fclose(p_file_result);
     fclose(p_file);
 }
+void free_tree(Node *root) {
+    if (root == NULL) {
+        return;
+    }
+
+    free_tree(root->left);
+    free_tree(root->right);
+    free(root);
+}

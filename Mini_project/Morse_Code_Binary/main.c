@@ -33,6 +33,8 @@ int main()
             break;
         case 0:
             // Exit the program when the user selects '0'
+            free_tree(p_root);
+            p_root = NULL;
             return 0;
             break;
         default:
