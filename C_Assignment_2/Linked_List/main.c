@@ -47,6 +47,8 @@ int main()
 
         case 0:
             // Exit the program
+            deleteList(&head);
+            head = NULL;
             return 0; 
             break;
 
@@ -54,6 +56,6 @@ int main()
             break;
         }
     }
-
+    
     return 0;
 }

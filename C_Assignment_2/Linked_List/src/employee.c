@@ -726,3 +726,18 @@ void insert_new_employee(employee_t **head)
         }
     }
 }
+void deleteList(employee_t** head)
+{
+   /* deref head_ref to get the real head */
+   employee_t* current = *head;
+   employee_t* next;
+ 
+   while (current != NULL)
+   {
+       next = current->next;
+       free(current);
+       current = next;
+   }
+   
+   *head = NULL;
+}

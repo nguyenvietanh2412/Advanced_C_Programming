@@ -79,5 +79,5 @@ void insert_new_employee(employee_t **head);
  * @param head List of employees.
  */
 void sort_employee_list(employee_t **head);
-
+void deleteList(employee_t** head);
 #endif // EMPLOYEE_H_
